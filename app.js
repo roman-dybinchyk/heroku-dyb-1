@@ -1,11 +1,16 @@
-var express = require('express')
-    , app = express()
-    , port = process.env.PORT || 3000;
+var express = require('express'),
+    app = express(),
+    pages = require (__dirname + '/app/controllers/pages');
 
-app.get('/', function (req, res) {
-    res.send('Hello, World!')
-});
 
-app.listen(port, function () {
-    console.log('Listening on port ', port)
-});
+app.set('views', __dirname + '/app/views');
+app.set('view engine', 'ejs');
+
+
+// mount routes
+app.get('/', function (req, res) { res.redirect('home'); });
+app.get('/home', pages.home);
+
+app.use(express.static(__dirname + '/public'));
+
+module.exports = app;
